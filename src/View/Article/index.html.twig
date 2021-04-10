@@ -1,0 +1,13 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1>Articles</h1>
+    <ul>
+        {% for article in articles %}
+            <li><a href="/article/show/{{ article.id }}">{{ article.id }}. {{ article.title }}</a></li>
+        {% else %}
+            <li>Nothing to display</li>
+        {% endfor %}
+    </ul>
+    <a href="/article/add">Ajouter</a>
+{% endblock %}

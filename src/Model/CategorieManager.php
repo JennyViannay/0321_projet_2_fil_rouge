@@ -13,9 +13,9 @@ namespace App\Model;
 /**
  *
  */
-class ItemManager extends AbstractManager
+class CategorieManager extends AbstractManager
 {
-    public const TABLE = 'item';
+    public const TABLE = 'categorie';
 
     /**
      *  Initializes this class.
@@ -26,14 +26,14 @@ class ItemManager extends AbstractManager
     }
 
     /**
-     * @param array $item
+     * @param array $article
      * @return int
      */
-    public function insert(array $item): int
+    public function insert(array $article): int
     {
         // prepared request
-        $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " (`title`) VALUES (:title)");
-        $statement->bindValue('title', $item['title'], \PDO::PARAM_STR);
+        $statement = $this->pdo->prepare("INSERT INTO " . self::TABLE . " (`name`) VALUES (:name)");
+        $statement->bindValue('name', $article['name'], \PDO::PARAM_STR);
 
         $statement->execute();
         return (int)$this->pdo->lastInsertId();
@@ -53,15 +53,15 @@ class ItemManager extends AbstractManager
 
 
     /**
-     * @param array $item
+     * @param array $article
      * @return bool
      */
-    public function update(array $item): bool
+    public function update(array $article): bool
     {
         // prepared request
-        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `title` = :title WHERE id=:id");
-        $statement->bindValue('id', $item['id'], \PDO::PARAM_INT);
-        $statement->bindValue('title', $item['title'], \PDO::PARAM_STR);
+        $statement = $this->pdo->prepare("UPDATE " . self::TABLE . " SET `name` = :name WHERE id=:id");
+        $statement->bindValue('id', $article['id'], \PDO::PARAM_INT);
+        $statement->bindValue('name', $article['name'], \PDO::PARAM_STR);
 
         return $statement->execute();
     }
