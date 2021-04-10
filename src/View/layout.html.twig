@@ -31,9 +31,6 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/article/index">Articles</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/categorie/index">Categories</a>
-                    </li>
                     {% if session.user is not defined %}
                     <li class="nav-item">
                         <a class="nav-link" href="/security/register">Register</a>
@@ -42,14 +39,17 @@
                         <a class="nav-link" href="/security/login">Login</a>
                     </li>
                     {% endif %}
+                    
                     {% if session.user is defined %}
                     <li class="nav-item">
                         <a class="nav-link" href="/security/logout">Logout</a>
                     </li>
-                    {% endif %}
+                    {% if session.user.role_id == 1 %}
                     <li class="nav-item">
-                        {{dump(session)}}
+                        <a class="nav-link" href="/admin/index">Admin</a>
                     </li>
+                    {% endif %}
+                    {% endif %}
                 </ul>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
