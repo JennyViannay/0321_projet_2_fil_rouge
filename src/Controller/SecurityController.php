@@ -13,14 +13,6 @@ use App\Model\UserManager;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * Display home page
-     *
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
     public function register()
     {
         $userManager = new UserManager();
