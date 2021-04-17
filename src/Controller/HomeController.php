@@ -52,4 +52,48 @@ class HomeController extends AbstractController
         $wishManager->delete($idWish);
         header('Location: /user/account');
     }
+
+    public function cart()
+    {
+        $cartInfos = $this->getCartInfos();
+        return $this->twig->render('Home/cart.html.twig', [
+            'cart' => $cartInfos
+        ]);
+    }
+
+    public function addToCart(int $idArticle)
+    {
+        if (!empty($_SESSION['cart'][$idArticle])) {
+            $_SESSION['cart'][$idArticle]++;
+        } else {
+            $_SESSION['cart'][$idArticle] = 1;
+        }
+        header('Location: /home/cart');
+    }
+
+    public function deleteFromCart(int $idArticle)
+    {
+        $cart = $_SESSION['cart'];
+        if (!empty($cart[$idArticle])) {
+            unset($cart[$idArticle]);
+        }
+        $_SESSION['cart'] = $cart;
+        header('Location: /home/cart');
+    }
+
+    public function getCartInfos()
+    {
+        if (isset($_SESSION['cart'])) {
+            $cart = $_SESSION['cart'];
+            $cartInfos = [];
+            $articleManager = new ArticleManager();
+            foreach ($cart as $idArticle => $qty) {
+                $article = $articleManager->selectOneById($idArticle);
+                $article['qty'] = $qty;
+                $cartInfos[] = $article;
+            }
+            return $cartInfos;
+        }
+        return false;
+    }
 }
