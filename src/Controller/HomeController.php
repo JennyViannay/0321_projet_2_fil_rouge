@@ -9,6 +9,9 @@
 
 namespace App\Controller;
 
+use App\Model\ArticleManager;
+use App\Model\WishlistManager;
+
 class HomeController extends AbstractController
 {
     /**
@@ -19,8 +22,34 @@ class HomeController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
+    // /home/index => /
     public function index()
     {
-        return $this->twig->render('Home/index.html.twig');
+        $articleManager = new ArticleManager();
+        $articles = $articleManager->selectAll();
+        return $this->twig->render('Home/index.html.twig', [
+            'articles' => $articles
+        ]);
+    }
+
+    public function like(int $idArticle)
+    {
+        $wishManager = new WishlistManager();
+        $isLiked = $wishManager->isLikedByUser($idArticle, $_SESSION['user']['id']);
+        if (!$isLiked) {
+            $wish = [
+                'user_id' => $_SESSION['user']['id'],
+                'article_id' => $idArticle
+            ];
+            $wishManager->insert($wish);
+        }
+        header('Location: /article/index');
+    }
+
+    public function dislike(int $idWish)
+    {
+        $wishManager = new WishlistManager();
+        $wishManager->delete($idWish);
+        header('Location: /user/account');
     }
 }

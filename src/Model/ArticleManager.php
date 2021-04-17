@@ -25,6 +25,12 @@ class ArticleManager extends AbstractManager
         parent::__construct(self::TABLE);
     }
 
+    public function selectAll(): array
+    {
+        return $this->pdo->query('SELECT * FROM ' . self::TABLE . '
+        ORDER BY id DESC')->fetchAll();
+    }
+
     /**
      * @param array $article
      * @return int

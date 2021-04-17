@@ -32,3 +32,12 @@ CREATE TABLE `role` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE user ADD CONSTRAINT FK_user_role FOREIGN KEY (role_id) REFERENCES role(id);
+
+CREATE TABLE `wishlist` (
+  `id` int(11) AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  `user_id` int NOT NULL,
+  `article_id` int NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE wishlist ADD CONSTRAINT FK_wishlist_user FOREIGN KEY (user_id) REFERENCES user(id);
+ALTER TABLE wishlist ADD CONSTRAINT FK_wishlist_article FOREIGN KEY (article_id) REFERENCES article(id);
