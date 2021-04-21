@@ -104,7 +104,6 @@ class AdminController extends AbstractController
                 $article['categorie_id'] = $_POST['categorie_id'];
                 $articleManager->update($article);
             }
-
             return $this->twig->render('Article/edit.html.twig', ['article' => $article]);
         } else {
             header('Location: /');
