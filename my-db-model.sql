@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : localhost:8889
--- Généré le : mer. 21 avr. 2021 à 13:23
+-- Généré le : mer. 21 avr. 2021 à 15:42
 -- Version du serveur :  5.7.30
 -- Version de PHP : 7.4.9
 
@@ -78,7 +78,34 @@ CREATE TABLE `contact` (
 --
 
 INSERT INTO `contact` (`id`, `firstname`, `lastname`, `subject`, `message`) VALUES
-(1, 'Jenny', 'Viannay', 'Infos', 'Une long message blablabla');
+(2, 'jkhkjh', 'kjhkjk', 'kjhkjh', 'kjhkjhkjhk'),
+(3, 'dd', 'ddd', 'ddd', 'dddd');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `order`
+--
+
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `total` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `order_article`
+--
+
+CREATE TABLE `order_article` (
+  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `article_id` int(11) NOT NULL,
+  `qty` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -164,6 +191,21 @@ ALTER TABLE `contact`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Index pour la table `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_order_user` (`user_id`);
+
+--
+-- Index pour la table `order_article`
+--
+ALTER TABLE `order_article`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `FK_order_id` (`order_id`),
+  ADD KEY `FK_article_id` (`article_id`);
+
+--
 -- Index pour la table `role`
 --
 ALTER TABLE `role`
@@ -204,7 +246,19 @@ ALTER TABLE `categorie`
 -- AUTO_INCREMENT pour la table `contact`
 --
 ALTER TABLE `contact`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT pour la table `order`
+--
+ALTER TABLE `order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `order_article`
+--
+ALTER TABLE `order_article`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT pour la table `role`
@@ -233,6 +287,19 @@ ALTER TABLE `wishlist`
 --
 ALTER TABLE `article`
   ADD CONSTRAINT `FK_article_categorie` FOREIGN KEY (`categorie_id`) REFERENCES `categorie` (`id`);
+
+--
+-- Contraintes pour la table `order`
+--
+ALTER TABLE `order`
+  ADD CONSTRAINT `FK_order_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`);
+
+--
+-- Contraintes pour la table `order_article`
+--
+ALTER TABLE `order_article`
+  ADD CONSTRAINT `FK_article_id` FOREIGN KEY (`article_id`) REFERENCES `article` (`id`),
+  ADD CONSTRAINT `FK_order_id` FOREIGN KEY (`order_id`) REFERENCES `order` (`id`);
 
 --
 -- Contraintes pour la table `user`
