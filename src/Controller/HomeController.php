@@ -102,21 +102,29 @@ class HomeController extends AbstractController
     {
         $errors = [];
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            if (
-                !empty($_POST['firstname']) && !empty($_POST['lastname'])
-                && !empty($_POST['subject']) && !empty($_POST['message'])
-            ) {
+            $data = array_map('trim', $_POST);
+            if (empty($data['firstname'])) {
+                $errors['firstname'] = "Le champs firstname est requis";
+            }
+            if (empty($data['lastname'])) {
+                $errors['lastname'] = "Le champs lastname est requis";
+            }
+            if (empty($data['subject'])) {
+                $errors['subject'] = "Le champs subject est requis";
+            }
+            if (empty($data['message'])) {
+                $errors['message'] = "Le champs message est requis";
+            }
+            if (empty($errors)) {
                 $contactManager = new ContactManager();
                 $contact = [
-                    'firstname' => $_POST['firstname'],
-                    'lastname' => $_POST['lastname'],
-                    'subject' => $_POST['subject'],
-                    'message' => $_POST['message'],
+                    'firstname' => $data['firstname'],
+                    'lastname' => $data['lastname'],
+                    'subject' => $data['subject'],
+                    'message' => $data['message'],
                 ];
                 $contactManager->insert($contact);
                 header('Location: /home/success');
-            } else {
-                $errors[] = "Tous les champs sont requis";
             }
         }
         return $this->twig->render('Home/contact.html.twig', [

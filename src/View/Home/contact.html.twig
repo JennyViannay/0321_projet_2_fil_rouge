@@ -6,24 +6,31 @@
         <div class="mb-3">
             <label for="firstname" class="form-label">Firstname</label>
             <input type="text" class="form-control" id="firstname" name="firstname">
+            {% if errors.firstname is defined and not empty %}
+            <p>{{errors.firstname}}</p>
+            {% endif %}
         </div>
         <div class="mb-3">
             <label for="lastname" class="form-label">Lastname</label>
             <input type="text" class="form-control" id="lastname" name="lastname">
+            {% if errors.lastname is defined and not empty %}
+            <p>{{errors.lastname}}</p>
+            {% endif %}
         </div>
         <div class="mb-3">
             <label for="subject" class="form-label">Subject</label>
             <input type="text" class="form-control" id="subject" name="subject">
+            {% if errors.subject is defined and not empty %}
+            <p>{{errors.subject}}</p>
+            {% endif %}
         </div>
         <div class="mb-3">
             <label for="message" class="form-label">Subject</label>
             <textarea class="form-control" id="message" name="message"></textarea>
+            {% if errors.message is defined and not empty %}
+            <p>{{errors.message}}</p>
+            {% endif %}
         </div>
-        {% if errors is not empty %}
-        {% for error in errors %}
-        <p>{{error}}</p>
-        {% endfor %}
-        {% endif %}
         <div class="mb-3 text-center">
             <button type="submit" class="btn btn-primary">Send</button>
         </div>
