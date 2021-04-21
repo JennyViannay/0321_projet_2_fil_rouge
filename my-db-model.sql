@@ -78,8 +78,7 @@ CREATE TABLE `contact` (
 --
 
 INSERT INTO `contact` (`id`, `firstname`, `lastname`, `subject`, `message`) VALUES
-(2, 'jkhkjh', 'kjhkjk', 'kjhkjh', 'kjhkjhkjhk'),
-(3, 'dd', 'ddd', 'ddd', 'dddd');
+(2, 'plop', 'plop', 'sujet', 'un long message');
 
 -- --------------------------------------------------------
 
