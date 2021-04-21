@@ -10,6 +10,7 @@
 namespace App\Controller;
 
 use App\Model\ArticleManager;
+use App\Model\ContactManager;
 use App\Model\WishlistManager;
 
 class HomeController extends AbstractController
@@ -95,5 +96,36 @@ class HomeController extends AbstractController
             return $cartInfos;
         }
         return false;
+    }
+
+    public function contact()
+    {
+        $errors = [];
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            if (
+                !empty($_POST['firstname']) && !empty($_POST['lastname'])
+                && !empty($_POST['subject']) && !empty($_POST['message'])
+            ) {
+                $contactManager = new ContactManager();
+                $contact = [
+                    'firstname' => $_POST['firstname'],
+                    'lastname' => $_POST['lastname'],
+                    'subject' => $_POST['subject'],
+                    'message' => $_POST['message'],
+                ];
+                $contactManager->insert($contact);
+                header('Location: /home/success');
+            } else {
+                $errors[] = "Tous les champs sont requis";
+            }
+        }
+        return $this->twig->render('Home/contact.html.twig', [
+            'errors' => $errors
+        ]);
+    }
+
+    public function success()
+    {
+        return $this->twig->render('Home/success.html.twig');
     }
 }

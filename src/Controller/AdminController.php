@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Model\ArticleManager;
 use App\Model\CategorieManager;
+use App\Model\ContactManager;
 
 class AdminController extends AbstractController
 {
@@ -12,7 +13,14 @@ class AdminController extends AbstractController
         if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 1) {
             $articleManager = new ArticleManager();
             $articles = $articleManager->selectAll();
-            return $this->twig->render('Admin/index.html.twig', ['articles' => $articles]);
+
+            $contactManager = new ContactManager();
+            $contacts = $contactManager->selectAll();
+
+            return $this->twig->render('Admin/index.html.twig', [
+                'articles' => $articles,
+                'contacts' => $contacts
+            ]);
         } else {
             header('Location: /');
         }
@@ -109,5 +117,16 @@ class AdminController extends AbstractController
         $categorieManager = new CategorieManager();
         $categorieManager->delete($id);
         header('Location:/categorie/index');
+    }
+
+    public function deleteContact(int $id)
+    {
+        if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 1) {
+            $contactManager = new ContactManager();
+            $contactManager->delete($id);
+            header('Location:/admin/index');
+        } else {
+            header('Location: /');
+        }
     }
 }
