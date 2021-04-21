@@ -17,9 +17,6 @@ class ArticleController extends AbstractController
 
     public function show(int $id)
     {
-        $articleManager = new ArticleManager();
-        $article = $articleManager->selectOneById($id);
-
-        return $this->twig->render('Article/show.html.twig', ['article' => $article]);
+        return $this->twig->render('Article/show_article.html.twig');
     }
 }

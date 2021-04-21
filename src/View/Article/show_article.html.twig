@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+{% block title %} - {{article.title}} {% endblock %}
+{% block content %}
+<section id="article" class="container text-center">
+    <h2>{{article.title}}</h2>
+    <div class="row mt-5">
+        <div class="col-4">
+            <img src="{{article.image}}" class="card-img-top" alt="{{article.title}}">
+        </div>
+        <div class="col-8">
+            <p class="card-text text-start">{{article.description}}</p>
+            <p>{{article.price}} $</p>
+            <p>{{article.hours}} Hours</p>
+        </div>
+    </div>
+    </div>
+</section>
+{% endblock %}

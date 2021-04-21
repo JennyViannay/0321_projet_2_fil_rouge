@@ -23,7 +23,6 @@ class HomeController extends AbstractController
      * @throws \Twig\Error\RuntimeError
      * @throws \Twig\Error\SyntaxError
      */
-    // /home/index => /
     public function index()
     {
         $articleManager = new ArticleManager();
