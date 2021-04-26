@@ -11,19 +11,13 @@ namespace App\Controller;
 
 use App\Model\ArticleManager;
 use App\Model\ContactManager;
+use App\Model\OrderArticleManager;
+use App\Model\OrderManager;
 use App\Model\WishlistManager;
+use DateTime;
 
 class HomeController extends AbstractController
 {
-    /**
-     * Display home page
-     *
-     * @return string
-     * @throws \Twig\Error\LoaderError
-     * @throws \Twig\Error\RuntimeError
-     * @throws \Twig\Error\SyntaxError
-     */
-    // /home/index => /
     public function index()
     {
         $articleManager = new ArticleManager();
@@ -57,8 +51,10 @@ class HomeController extends AbstractController
     public function cart()
     {
         $cartInfos = $this->getCartInfos();
+        $totalCart = $this->totalCart();
         return $this->twig->render('Home/cart.html.twig', [
-            'cart' => $cartInfos
+            'cart' => $cartInfos,
+            'totalCart' => $totalCart,
         ]);
     }
 
@@ -80,6 +76,18 @@ class HomeController extends AbstractController
         }
         $_SESSION['cart'] = $cart;
         header('Location: /home/cart');
+    }
+
+    public function totalCart()
+    {
+        $total = 0;
+        if ($this->getCartInfos() != false) {
+            foreach ($this->getCartInfos() as $article) {
+                $total += $article['price'] * $article['qty'];
+            }
+            return $total;
+        }
+        return $total;
     }
 
     public function getCartInfos()
@@ -135,5 +143,36 @@ class HomeController extends AbstractController
     public function success()
     {
         return $this->twig->render('Home/success.html.twig');
+    }
+
+    public function order()
+    {
+        $orderManager = new OrderManager();
+        $orderArticleManager = new OrderArticleManager();
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            if (!empty($_POST['address'])) {
+                $order = [
+                    'created_at' => date("y-m-d"),
+                    'total' => $this->totalCart(),
+                    'user_id' => $_SESSION['user']['id'],
+                    'address' => $_POST['address'],
+                ];
+                $idOrder = $orderManager->insert($order);
+
+                foreach($_SESSION['cart'] as $idArticle => $qty) {
+                    // update des quantity article 
+                    $newLineIntickets = [
+                        'order_id' => $idOrder,
+                        'article_id' => $idArticle,
+                        'qty' => $qty
+                    ];
+                    $orderArticleManager->insert($newLineIntickets);
+                }
+                unset($_SESSION['cart']);
+                // envoie d'email de confirmation
+                header('Location: /');
+            }
+        }
+        return $this->twig->render('Home/order.html.twig');
     }
 }

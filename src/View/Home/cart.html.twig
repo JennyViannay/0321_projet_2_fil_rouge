@@ -23,5 +23,12 @@
             {% endfor %}
         </tbody>
     </table>
+    <h3>Total : {{totalCart}} €</h3>
+
+    {% if session.user is defined %}
+        <a href="/home/order">Passer la commande</a>
+    {% else %}
+        <a href="/security/login">Connectez vous pour passer la commande</a>
+    {% endif %}
 </div>
 {% endblock %}

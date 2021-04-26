@@ -1,0 +1,16 @@
+{% extends 'layout.html.twig' %}
+{% block title %} - Order {% endblock %}
+{% block content %}
+<section id="order" class="container">
+    <h1 class="text-center">Veuillez remplir les informations de paiement et de livraison :</h1>
+    <div class="text-center">
+        <form action="" method="POST">
+            <div class="mb-3">
+                <label for="address">Adresse</label>
+                <input type="text" id="address" class="form-control" name="address">
+            </div>
+            <button type="submit" class="btn btn-primary">Payer</button>
+        </form>
+    </div>
+</section>
+{% endblock %}
