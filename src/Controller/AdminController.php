@@ -122,8 +122,7 @@ class AdminController extends AbstractController
     public function deleteContact(int $id)
     {
         if (isset($_SESSION['user']) && $_SESSION['user']['role_id'] == 1) {
-            $contactManager = new ContactManager();
-            $contactManager->delete($id);
+            // TODO :: DELETE CONTACT
             header('Location:/admin/index');
         } else {
             header('Location: /');

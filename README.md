@@ -14,17 +14,11 @@ define('APP_DB_PWD', 'your_db_password');
 6. Go to `localhost:8000` with your favorite browser.
 7. From this starter kit, create your own web application.
 
-## URLs availables
+## DEBUG MVC 2
 
-* Home page at [localhost:8000/](localhost:8000/)
-* Articles list at [localhost:8000/article/index](localhost:8000/article/index)
-* Article details [localhost:8000/article/index/show/:id](localhost:8000/article/show/2)
-* Article edit [localhost:8000/article/index/edit/:id](localhost:8000/article/edit/2)
-* Article add [localhost:8000/article/index/add](localhost:8000/article/add)
-* Article deletion [localhost:8000/article/index/delete/:id](localhost:8000/article/delete/2)
-* Categories list at [localhost:8000/categorie/index](localhost:8000/categorie/index)
-* Categorie details [localhost:8000/categorie/index/show/:id](localhost:8000/categorie/show/2)
-* Categorie edit [localhost:8000/categorie/index/edit/:id](localhost:8000/categorie/edit/2)
-* Categorie add [localhost:8000/categorie/index/add](localhost:8000/categorie/add)
-* Categorie deletion [localhost:8000/categorie/index/delete/:id](localhost:8000/categorie/delete/2)
-
+### 1 - AdminController Delete Contact
+### 2 - HomeController Delete from Wishlist
+### 3 - HomeController Gestion d'erreur formulaire de contact
+### 4 - HomeController Infos contact vers Success
+### 5 - HomeController Order & Tickets
+### 6 - SecurityController Login User

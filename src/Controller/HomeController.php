@@ -11,8 +11,6 @@ namespace App\Controller;
 
 use App\Model\ArticleManager;
 use App\Model\ContactManager;
-use App\Model\OrderArticleManager;
-use App\Model\OrderManager;
 use App\Model\WishlistManager;
 use DateTime;
 
@@ -43,9 +41,7 @@ class HomeController extends AbstractController
 
     public function dislike(int $idWish)
     {
-        $wishManager = new WishlistManager();
-        $wishManager->delete($idWish);
-        header('Location: /user/account');
+        // TODO :: DELETE FROM WISHLIST
     }
 
     public function cart()
@@ -111,18 +107,7 @@ class HomeController extends AbstractController
         $errors = [];
         if ($_SERVER['REQUEST_METHOD'] === "POST") {
             $data = array_map('trim', $_POST);
-            if (empty($data['firstname'])) {
-                $errors['firstname'] = "Le champs firstname est requis";
-            }
-            if (empty($data['lastname'])) {
-                $errors['lastname'] = "Le champs lastname est requis";
-            }
-            if (empty($data['subject'])) {
-                $errors['subject'] = "Le champs subject est requis";
-            }
-            if (empty($data['message'])) {
-                $errors['message'] = "Le champs message est requis";
-            }
+            // TODO :: GESTION D'ERREURS POUR CHAQUE CHAMPS  
             if (empty($errors)) {
                 $contactManager = new ContactManager();
                 $contact = [
@@ -132,6 +117,7 @@ class HomeController extends AbstractController
                     'message' => $data['message'],
                 ];
                 $contactManager->insert($contact);
+                // TODO :: ENVOYER LES INFOS DU FORMULAIRE SUR LA PAGE SUCCESS ET LES AFFICHER
                 header('Location: /home/success');
             }
         }
@@ -147,32 +133,7 @@ class HomeController extends AbstractController
 
     public function order()
     {
-        $orderManager = new OrderManager();
-        $orderArticleManager = new OrderArticleManager();
-        if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            if (!empty($_POST['address'])) {
-                $order = [
-                    'created_at' => date("y-m-d"),
-                    'total' => $this->totalCart(),
-                    'user_id' => $_SESSION['user']['id'],
-                    'address' => $_POST['address'],
-                ];
-                $idOrder = $orderManager->insert($order);
-
-                foreach($_SESSION['cart'] as $idArticle => $qty) {
-                    // update des quantity article 
-                    $newLineIntickets = [
-                        'order_id' => $idOrder,
-                        'article_id' => $idArticle,
-                        'qty' => $qty
-                    ];
-                    $orderArticleManager->insert($newLineIntickets);
-                }
-                unset($_SESSION['cart']);
-                // envoie d'email de confirmation
-                header('Location: /');
-            }
-        }
+        // TODO :: ORDER AND TICKETS
         return $this->twig->render('Home/order.html.twig');
     }
 }

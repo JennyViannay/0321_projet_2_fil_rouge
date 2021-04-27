@@ -54,23 +54,7 @@ class SecurityController extends AbstractController
         $userManager = new UserManager();
         $errors = [];
 
-        if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            if (!empty($_POST['username']) && !empty($_POST['password'])) {
-                $user = $userManager->searchUser($_POST['username']);
-                if ($user) {
-                    if ($user['password'] === md5($_POST['password'])) {
-                        $_SESSION['user'] = $user;
-                        header('Location: /');
-                    } else {
-                        $errors[] = "Mot de passe invalide !";
-                    }
-                } else {
-                    $errors[] = "Le nom d'utilisateur n'existe pas !";
-                }
-            }
-        } else {
-            $errors[] = "Tous les champs sont requis !";
-        }
+        // TODO :: LOGIN USER
         return $this->twig->render('Security/login.html.twig', ['errors' => $errors]);
     }
 
