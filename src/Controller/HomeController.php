@@ -11,8 +11,6 @@ namespace App\Controller;
 
 use App\Model\ArticleManager;
 use App\Model\ContactManager;
-use App\Model\OrderArticleManager;
-use App\Model\OrderManager;
 use App\Model\WishlistManager;
 use DateTime;
 
@@ -145,34 +143,5 @@ class HomeController extends AbstractController
         return $this->twig->render('Home/success.html.twig');
     }
 
-    public function order()
-    {
-        $orderManager = new OrderManager();
-        $orderArticleManager = new OrderArticleManager();
-        if ($_SERVER['REQUEST_METHOD'] === "POST") {
-            if (!empty($_POST['address'])) {
-                $order = [
-                    'created_at' => date("y-m-d"),
-                    'total' => $this->totalCart(),
-                    'user_id' => $_SESSION['user']['id'],
-                    'address' => $_POST['address'],
-                ];
-                $idOrder = $orderManager->insert($order);
 
-                foreach($_SESSION['cart'] as $idArticle => $qty) {
-                    // update des quantity article 
-                    $newLineIntickets = [
-                        'order_id' => $idOrder,
-                        'article_id' => $idArticle,
-                        'qty' => $qty
-                    ];
-                    $orderArticleManager->insert($newLineIntickets);
-                }
-                unset($_SESSION['cart']);
-                // envoie d'email de confirmation
-                header('Location: /');
-            }
-        }
-        return $this->twig->render('Home/order.html.twig');
-    }
 }
