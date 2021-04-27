@@ -86,4 +86,14 @@ class ArticleManager extends AbstractManager
 
         return $statement->execute();
     }
+
+    public function updateQty(int $idArticle, int $newQty)
+    {
+        $statement = $this->pdo->prepare("UPDATE " . self::TABLE .
+        " SET `qty` = :qty WHERE id=:id");
+        $statement->bindValue('id', $idArticle, \PDO::PARAM_INT);
+        $statement->bindValue('qty', $newQty, \PDO::PARAM_INT);
+
+        return $statement->execute();
+    }
 }

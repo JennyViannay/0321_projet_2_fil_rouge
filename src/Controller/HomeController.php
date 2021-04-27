@@ -11,6 +11,8 @@ namespace App\Controller;
 
 use App\Model\ArticleManager;
 use App\Model\ContactManager;
+use App\Model\OrderArticleManager;
+use App\Model\OrderManager;
 use App\Model\WishlistManager;
 use DateTime;
 
@@ -143,5 +145,69 @@ class HomeController extends AbstractController
         return $this->twig->render('Home/success.html.twig');
     }
 
+    public function order()
+    {
+        $orderManager = new OrderManager();
+        $orderArticleManager = new OrderArticleManager();
+        $articleManager = new ArticleManager();
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            if (!empty($_POST['address'])) {
+                $order = [
+                    'created_at' => date('y-m-d'),
+                    'total' => $this->totalCart(),
+                    'user_id' => $_SESSION['user']['id'],
+                    'address' => $_POST['address'],
+                ];
+                $idOrder = $orderManager->insert($order);
+                
+                if ($idOrder) {
+                    foreach($_SESSION['cart'] as $idArticle => $qty) {
+                        // $article = $articleManager->selectOneById($idArticle);
+                        // $newQty = $article['qty'] - $qty;
+                        // $articleManager->updateQty($idArticle, $newQty);
+                        $newLineInTickets = [
+                            'order_id' => $idOrder,
+                            'article_id' => $idArticle,
+                            'qty' => $qty,
+                        ];
+                        $orderArticleManager->insert($newLineInTickets);
+                    }
+                    unset($_SESSION['cart']);
+                    header('Location: /');
+                }
+            }
+        }
+        return $this->twig->render('Home/order.html.twig');
+    }
 
+    public function orderDetail(int $orderId)
+    {
+        $orderArticleManager = new OrderArticleManager();
+        $articleManager = new ArticleManager();
+
+        $ticket = $orderArticleManager->getTicketFromOrderId($orderId);
+
+        $result = [];
+        foreach($ticket as $detail)
+        {
+            $article = $articleManager->selectOneById($detail['article_id']);
+            $detail['article_id'] = $article;
+            
+            $result[] = $detail;
+        }
+        return $this->twig->render('Order/detail.html.twig', [
+            'ticket' => $result,
+            'orderId' => $orderId,
+        ]);
+        
+    }
 }
+
+
+// ORDER 
+
+// TICKET DE CAISSE  ~ GESTION DE STOCK
+
+// CLEAR PANIER & REDIRECT SUCCESS 
+
+// ENVOIE D'email avec ORDER ID + TICKET DE CAISSE 
