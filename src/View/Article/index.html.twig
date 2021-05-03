@@ -14,8 +14,8 @@
                 </div>
                 <div class="card-footer text-center">
                     <a href="#" class="btn btn-primary">Show</a>
-                    <a href="/home/addToCart/{{article.id}}" class="btn btn-success">Add To Cart</a>
-                    <a href="/home/like/{{article.id}}" class="btn btn-secondary">Add to favorite</a>
+                    <a href="/ajax/addToCart/{{article.id}}" class="btn btn-success js-cart">Add To Cart</a>
+                    <a href="/ajax/like/{{article.id}}" class="btn btn-secondary js-like">Add to favorite</a>
                 </div>
             </div>
         </div>
@@ -23,4 +23,24 @@
     </div>
 </div>
 
+{% endblock %}
+
+{% block javascript %}
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.querySelectorAll('a.js-like').forEach(link => {
+            console.log(link)
+            link.addEventListener('click', e => {
+                e.preventDefault()
+                axios.get(link.href)
+                .then(response => {
+                    console.log(response.data)
+                }).catch(error => {
+                    if(error.response.status === 403) {
+                        window.alert("Vous ne pouvez pas liker un article si vous n'êtes pas connecté !")
+                    }
+                })
+            })
+        })
+    </script>
 {% endblock %}

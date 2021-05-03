@@ -64,4 +64,27 @@
         {% endfor %}
     </div>
 </section>
+
+{% endblock %}
+
+{% block javascript %}
+{# <script>
+    if (localStorage.getItem('animeIsPlayed') === false || !localStorage.getItem('animeIsPlayed')) {
+        let body = document.getElementById('body');
+        body.classList.add("bg-first");
+        console.log(body);
+
+        setTimeout(function () {
+            body.classList.remove("bg-first");
+            localStorage.setItem('animeIsPlayed', true);
+        }, 5000);
+
+        setTimeout();
+    }
+
+    window.onbeforeunload = function () {
+        localStorage.removeItem('animeIsPlayed');
+        return '';
+    };
+</script> #}
 {% endblock %}

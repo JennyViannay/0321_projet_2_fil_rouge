@@ -1,0 +1,13 @@
+.bg-first {
+    width: 100%;
+    height: 100%;
+    background-image: url('https://picsum.photos/1200/700');
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: 1;
+}

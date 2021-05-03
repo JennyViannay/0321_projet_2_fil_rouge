@@ -86,4 +86,16 @@ class ArticleManager extends AbstractManager
 
         return $statement->execute();
     }
+
+    public function searchByTitle(string $title)
+    {
+        $title = $title.'%';
+        $statement = $this->pdo->prepare('SELECT * FROM ' . self::TABLE . ' WHERE title LIKE :title
+        ORDER BY id DESC');
+        $statement->bindValue('title', $title, \PDO::PARAM_STR);
+        $statement->execute();
+
+        return $statement->fetchAll();
+
+    }
 }
