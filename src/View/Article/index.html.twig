@@ -14,13 +14,40 @@
                 </div>
                 <div class="card-footer text-center">
                     <a href="#" class="btn btn-primary">Show</a>
-                    <a href="/home/addToCart/{{article.id}}" class="btn btn-success">Add To Cart</a>
-                    <a href="/home/like/{{article.id}}" class="btn btn-secondary">Add to favorite</a>
+                    <a href="/ajax/addToCart/{{article.id}}" class="btn btn-success js-cart">Add To Cart</a>
+                    <a href="/ajax/like/{{article.id}}" class="btn btn-secondary js-like">Add to favorite</a>
                 </div>
             </div>
         </div>
         {% endfor %}
+        <p id="message"></p>
     </div>
 </div>
 
+{% endblock %}
+
+{% block javascript %}
+<script>
+    const message = document.getElementById('message');
+    const linksLike = document.querySelectorAll('a.js-like');
+    linksLike.forEach(link => {
+        link.addEventListener('click', event => {
+            event.preventDefault();
+            axios.get(link.href)
+            .then(response => response.data)
+            .then(data => data ? alert('Ok') : alert('KO'));
+        })
+    })
+    const linksCart= document.querySelectorAll('a.js-cart');
+    linksCart.forEach(link => {
+        link.addEventListener('click', event => {
+            event.preventDefault();
+            axios.get(link.href)
+            .then(response => response.data)
+            .then(data => 
+                message.innerHTML = "L'article a été ajouté au panier !"
+            );
+        })
+    })
+</script>
 {% endblock %}

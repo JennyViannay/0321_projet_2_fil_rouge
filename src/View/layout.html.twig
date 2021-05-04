@@ -51,11 +51,10 @@
                     {% endif %}
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/home/cart">Cart</a>
+                        <a class="nav-link" href="/home/cart">Cart <span id="js-total"></span></a>
                     </li>
                 </ul>
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <form class="d-flex" method="POST" action="/home/searchByTitle">
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
@@ -136,6 +135,15 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf"
         crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        const total = document.getElementById('js-total');
+        axios.get('/ajax/totalCart')
+        .then(response => response.data)
+        .then(data => total.innerHTML = data)
+    </script>
     {% block javascript %}{% endblock %}
 </body>
 

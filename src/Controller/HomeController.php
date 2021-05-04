@@ -20,11 +20,15 @@ class HomeController extends AbstractController
 {
     public function index()
     {
-        $articleManager = new ArticleManager();
-        $articles = $articleManager->selectAll();
-        return $this->twig->render('Home/index.html.twig', [
-            'articles' => $articles
-        ]);
+        try {
+            $articleManager = new ArticleManager();
+            $articles = $articleManager->selectAll();
+            return $this->twig->render('Home/index.html.twig', [
+                'articles' => $articles
+            ]);
+        } catch (\Exception $error) {
+            throw $error;
+        }
     }
 
     public function like(int $idArticle)
@@ -159,7 +163,7 @@ class HomeController extends AbstractController
                 ];
                 $idOrder = $orderManager->insert($order);
 
-                foreach($_SESSION['cart'] as $idArticle => $qty) {
+                foreach ($_SESSION['cart'] as $idArticle => $qty) {
                     // update des quantity article 
                     $newLineIntickets = [
                         'order_id' => $idOrder,
@@ -174,5 +178,15 @@ class HomeController extends AbstractController
             }
         }
         return $this->twig->render('Home/order.html.twig');
+    }
+
+    public function searchByTitle()
+    {
+        if ($_SERVER['REQUEST_METHOD'] === "POST") {
+            $articleManager = new ArticleManager();
+            $articles = $articleManager->getByTitle($_POST['title']);
+
+            return $this->twig->render('Article/index.html.twig', ['articles' => $articles]);
+        }
     }
 }
